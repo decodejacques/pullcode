@@ -1,0 +1,31 @@
+{
+  "name": "create-sym",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sym.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fortawesome/fontawesome": "^1.1.8",
+    "@fortawesome/react-fontawesome": "0.0.20",
+    "@material-ui/core": "^1.0.0-rc.1",
+    "@material-ui/icons": "^1.0.0-rc.0",
+    "body-parser": "^1.18.3",
+    "bootstrap": "^4.1.1",
+    "create-symlink": "^1.0.0",
+    "express": "^4.16.3",
+    "fontawesome": "^4.7.2",
+    "google-map-react": "^1.0.3",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-notifications": "^1.4.3",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.1.4",
+    "reactstrap": "^6.0.1",
+    "styled-components": "^3.2.6"
+  }
+}
