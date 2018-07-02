@@ -5,7 +5,6 @@ import Food from './Food.js';
 import Fun from './Fun.js';
 import Price from './Price.js';
 
-
 // preferences to have all the states (not in App.js)
 class Preferences extends Component {
     constructor(props) {
