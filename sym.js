@@ -1,19 +1,22 @@
 const createSymlink = require('create-symlink');
-var fs = require('fs');
+const fs = require('fs');
 
-var walk = function (dir, done) {
-  var results = [];
-  fs.readdir(dir, function (err, list) {
+function walk(dir, done) {
+  let results = [];
+  fs.readdir(dir, function(err, list) {
     if (err) return done(err);
-    var i = 0;
+    let i = 0;
     (function next() {
       var file = list[i++];
       if (!file) return done(null, results);
       file = dir + '/' + file;
-      if (file.includes('node_modules')) { next(); return }
-      fs.stat(file, function (err, stat) {
+      if (file.includes('node_modules')) {
+        next();
+        return;
+      }
+      fs.stat(file, function(err, stat) {
         if (stat && stat.isDirectory()) {
-          walk(file, function (err, res) {
+          walk(file, function(err, res) {
             results = results.concat(res);
             next();
           });
@@ -24,22 +27,25 @@ var walk = function (dir, done) {
       });
     })();
   });
-};
+}
 
 function proc(lst) {
   lst.forEach(path => {
     if (path.includes('package.json')) {
-  
       path = path.substring(0, path.indexOf('package.json'));
-      console.log(path);
-      createSymlink(__dirname + '/node_modules', path + '/node_modules', { type: 'junction' }).then(() => {
-         // Created a junction point (Windows only)
-       });
+      console.log(`Creating node_modules symlink...`);
+      createSymlink(__dirname + '/node_modules', path + '/node_modules', { type: 'junction' })
+        .catch(err => {
+          if (err.code !== 'EEXIST') {
+            console.error(err);
+          }
+        })
+        .then(() => console.log('Done!'));
     }
-  })
+  });
 }
 
-walk('.', (a, lst) => proc(lst))
+walk('.', (a, lst) => proc(lst));
 // createSymlink('../../nodecache/node_modules', '../testing-node-cache/node_modules', {type: 'junction'}).then(() => {
 //     // Created a junction point (Windows only)
 //   });
