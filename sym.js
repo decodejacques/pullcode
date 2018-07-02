@@ -1,22 +1,29 @@
 const createSymlink = require('create-symlink');
 const fs = require('fs');
 
-function walk(dir, done) {
+function searchThrough(dir, done) {
   let results = [];
-  fs.readdir(dir, function(err, list) {
-    if (err) return done(err);
+  fs.readdir(dir, function(err, files) {
+    if (err) {
+      return console.error(error);
+    }
     let i = 0;
     (function next() {
-      var file = list[i++];
-      if (!file) return done(null, results);
+      let file = files[i++];
+      if (!file) {
+        return done(results);
+      }
       file = dir + '/' + file;
       if (file.includes('node_modules')) {
         next();
         return;
       }
       fs.stat(file, function(err, stat) {
+        if (err) {
+          return console.error(err);
+        }
         if (stat && stat.isDirectory()) {
-          walk(file, function(err, res) {
+          searchThrough(file, res => {
             results = results.concat(res);
             next();
           });
@@ -29,12 +36,12 @@ function walk(dir, done) {
   });
 }
 
-function proc(lst) {
-  lst.forEach(path => {
-    if (path.includes('package.json')) {
-      path = path.substring(0, path.indexOf('package.json'));
-      console.log(`Creating node_modules symlink...`);
-      createSymlink(__dirname + '/node_modules', path + '/node_modules', { type: 'junction' })
+function link(files) {
+  files.forEach(filePath => {
+    if (filePath && filePath.includes('package.json')) {
+      filePath = filePath.substring(0, filePath.indexOf('package.json'));
+      console.log(`Creating node_modules symlink for each directory...`);
+      createSymlink(__dirname + '/node_modules', filePath + '/node_modules', { type: 'junction' })
         .catch(err => {
           if (err.code !== 'EEXIST') {
             console.error(err);
@@ -45,7 +52,4 @@ function proc(lst) {
   });
 }
 
-walk('.', (a, lst) => proc(lst));
-// createSymlink('../../nodecache/node_modules', '../testing-node-cache/node_modules', {type: 'junction'}).then(() => {
-//     // Created a junction point (Windows only)
-//   });
+searchThrough('.', files => link(files));
