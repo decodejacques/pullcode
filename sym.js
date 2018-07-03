@@ -40,8 +40,9 @@ function link(files) {
   files.forEach(filePath => {
     if (filePath && filePath.includes('package.json')) {
       filePath = filePath.substring(0, filePath.indexOf('package.json'));
-      console.log(`Creating node_modules symlink for each directory...`);
-      createSymlink(__dirname + '/node_modules', filePath + '/node_modules', { type: 'junction' })
+      const NODE_MODULES = `${__dirname}/node_modules`;
+      console.log(`Creating symlink to ${NODE_MODULES} in each directory...`);
+      createSymlink(NODE_MODULES, filePath + '/node_modules', { type: 'junction' })
         .catch(err => {
           if (err.code !== 'EEXIST') {
             console.error(err);
