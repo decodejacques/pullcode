@@ -1,1 +1,1 @@
-ssh decode@165.227.37.255 'ls'
+rsync  rsync://165.227.37.255:12000/files | awk '{print $NF}' | grep -v '\.' 
