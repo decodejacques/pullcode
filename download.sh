@@ -1,2 +1,2 @@
-rsync -chavzP --stats decode@165.227.37.255:~/$1 ./decode
+rsync -chavzP --stats rsync://165.227.37.255:12000/files/$1 ./decode
 node sym.js
