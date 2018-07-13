@@ -7,7 +7,7 @@ function searchThrough(dir, done) {
   let results = [];
   fs.readdir(dir, function(err, files) {
     if (err) {
-      console.error(error);
+      console.error(err);
       return;
     }
     let i = 0;
