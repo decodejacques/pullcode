@@ -40,21 +40,20 @@ function searchThrough(dir, done) {
 }
 
 function link(files) {
+  console.log(`Creating symlink to ${NODE_MODULES} in each directory...`);
   files.forEach(filePath => {
     if (filePath && filePath.includes('package.json')) {
       filePath = filePath.substring(0, filePath.indexOf('package.json'));
-      if (fs.existsSync(filePath+ '/node_modules')) {
+      if (fs.existsSync(filePath + '/node_modules')) {
         return;
       }
-      //console.log(`Creating symlink to ${NODE_MODULES} in each directory...`);
-      createSymlink(NODE_MODULES, filePath + '/node_modules', { type: 'junction' })
-        .catch(err => {
-          if (err.code !== 'EEXIST') {
-            console.error(err);
-          }
-        })
-        //.then(() => console.log('Link added!'));
+      createSymlink(NODE_MODULES, filePath + '/node_modules', { type: 'junction' }).catch(err => {
+        if (err.code !== 'EEXIST') {
+          console.error(err);
+        }
+      });
     }
   });
+  console.log('Files added!');
 }
 searchThrough('./decode/' + process.argv[2], files => link(files));

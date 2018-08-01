@@ -9,6 +9,6 @@ if [ ! -f key.json ]; then
 fi
 
 username_d=`cat ta-name.txt`
-nodejs log.js $username_d $1
+node log.js $username_d $1
 rsync -chazP --stats rsync://165.227.37.255:12000/files/$1 ./decode/ | sed 's%/[^/]*$%/%' | grep $1 | uniq -u
 node sym.js $1
