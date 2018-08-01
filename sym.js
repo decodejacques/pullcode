@@ -1,7 +1,7 @@
 const createSymlink = require('create-symlink');
 const fs = require('fs');
 
-const NODE_MODULES = `${__dirname}\\node_modules`;
+const NODE_MODULES = `${__dirname}/node_modules`;
 
 function searchThrough(dir, done) {
   let results = [];
@@ -40,20 +40,21 @@ function searchThrough(dir, done) {
 }
 
 function link(files) {
-  console.log(`Creating symlink to ${NODE_MODULES} in each directory...`);
   files.forEach(filePath => {
     if (filePath && filePath.includes('package.json')) {
       filePath = filePath.substring(0, filePath.indexOf('package.json'));
-      if (fs.existsSync(filePath + '/node_modules')) {
+      if (fs.existsSync(filePath+ '/node_modules')) {
         return;
       }
-      createSymlink(NODE_MODULES, filePath + '/node_modules', { type: 'junction' }).catch(err => {
-        if (err.code !== 'EEXIST') {
-          console.error(err);
-        }
-      });
+      //console.log(`Creating symlink to ${NODE_MODULES} in each directory...`);
+      createSymlink(NODE_MODULES, filePath + '/node_modules', { type: 'junction' })
+        .catch(err => {
+          if (err.code !== 'EEXIST') {
+            console.error(err);
+          }
+        })
+        //.then(() => console.log('Link added!'));
     }
   });
-  console.log('Done!');
 }
 searchThrough('./decode/' + process.argv[2], files => link(files));

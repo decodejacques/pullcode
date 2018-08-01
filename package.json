@@ -18,13 +18,17 @@
     "bootstrap": "^4.1.1",
     "create-symlink": "^1.0.0",
     "express": "^4.16.3",
+    "firebase-admin": "^5.13.1",
     "fontawesome": "^4.7.2",
     "google-map-react": "^1.0.3",
+    "lodash": "^4.17.10",
+    "lodash.uniqueid": "^4.0.1",
+    "one-liner-joke": "^1.0.0",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-notifications": "^1.4.3",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.4",
+    "react-scripts": "^1.1.4",
     "reactstrap": "^6.0.1",
     "styled-components": "^3.2.6"
   }
