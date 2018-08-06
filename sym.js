@@ -2,7 +2,7 @@ const createSymlink = require('create-symlink');
 const fs = require('fs');
 
 const NODE_MODULES = `${__dirname}/node_modules`;
-
+const PATH = process.argv[2] ? `./decode/${process.argv[2]}` : '.';
 function searchThrough(dir, done) {
   let results = [];
   fs.readdir(dir, function(err, files) {
@@ -56,4 +56,4 @@ function link(files) {
   });
   console.log('Files added!');
 }
-searchThrough('./decode/' + process.argv[2], files => link(files));
+searchThrough(PATH, files => link(files));
